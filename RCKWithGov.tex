@@ -1,0 +1,126 @@
+\input{@resources/tex-add-search-paths}  % allow latex to find custom stuff
+\input{./.econtexRoot}                   % Set path to root dir
+\documentclass{econark}
+\usepackage{econark}                     % shared notation and shortcuts
+\usepackage{econark-notation}            % the registry's own macros
+\usepackage{llorracc-handouts}           % \handoutHeader, \handoutNameMake
+\providecommand{\texname}{RCKWithGov}    % Keyname for the paper
+\input{@local/dir-paths}                 % macros for various subdirs
+\usepackage{@local/\texname}             % macros specific to this handout
+% endfloat defines \filename, which \bibfilesfound reads when \bibliography expands it; so load it first
+\usepackage[noheads,nolists,nomarkers]{endfloat}
+\renewcommand{\efloatheading}[1]{}       % no "FIGURES" running head on the figure pages, as in the RCK handout
+\usepackage{econark-bibfilesfind}        % Package to find valid bibfiles
+\bibfilesfind{\texname}                  % find them
+\usepackage{hyperref}                    % allow hyperlinks
+\usepackage{econark-make4ht}             % link colors and pdf-or-web settings
+
+% The book's chapter is the source of this text (content/growth/RCKWithGov/index.md in
+% intertemporal-choice.github.io). Make edits there first and carry them here; check-book-sync.py
+% reports any differences. Revived from the 2021 handout on 2026-11-17 (Chris, in cc:course-choice).
+\begin{document}
+\handoutHeader
+
+\begin{verbatimwrite}{\jobname.title}
+  The Ramsey/Cass-Koopmans (RCK) Model with Government
+\end{verbatimwrite}
+
+\handoutNameMake
+
+This handout adds a government to the \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{decentralized RCK economy} and derives three results. Government spending paid for by lump-sum taxes leaves the competitive equilibrium efficient; the timing of those taxes does not matter, which is Ricardian equivalence; and a tax on capital income lowers the steady-state capital stock below the planner's, even when all its revenue is rebated.\marginFootnote{\citet{blanchard&fischer:text}, chapter 2, the course reading, treat government in this model after the planner and the decentralized economy, as this book does. \citet{romer:text}, section 2.7, analyzes government purchases with the same phase diagram, and QuantEcon's \href{https://python.quantecon.org/cass_fiscal.html}{Cass-Koopmans model with distorting taxes} computes fiscal experiments like these in discrete time.}
+
+The economy is that of the \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{decentralized RCK model}. There is no population or productivity growth, so per capita quantities are the RCK model's quantities per efficiency unit. Households are identical and form a unit mass, as in the \href{https://intertemporal-choice.github.io/content/appendices/mathematical/aggregation/}{Aggregation} appendix, so per capita and aggregate quantities are the same and the household index is dropped. Capital depreciates at the rate $\deprRte$, so the interest rate is $\rfree = \fFunc^{\prime}(\kap) - \deprRte$ and the wage is $\Wage = \fFunc(\kap) - \kap\fFunc^{\prime}(\kap)$.
+
+\section{Spending Paid for by Lump-Sum Taxes}\label{sec:RCKGov-LumpSum}
+
+The government spends $\GovSpend$ per unit of time, which yields no utility, and pays for it with a lump-sum tax $\TaxLev$ on each household; it balances its budget, $\TaxLev = \GovSpend$ at every date, so it never borrows. Taking the paths of the interest rate, the wage and the tax as given, a household with net worth $\aNrm$ solves the problem of the \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{decentralized economy} with the tax subtracted from its income:
+\begin{equation}
+  \dot{\aNrm} = \rfree\aNrm + \Wage - \cNrm - \TaxLev . \label{eq:hhbc}
+\end{equation}
+The tax depends on nothing the household chooses, so it drops out of the \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/\#eq-lamgrow}{costate equation}, and consumption grows as in the \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/\#eq-cdotindiv}{economy without government}:
+\begin{equation}
+  \dot{\cNrm}/\cNrm = \CRRA^{-1}(\rfree - \discRte) . \label{eq:RCKGov-cdot}
+\end{equation}
+
+The tax does change the household's lifetime budget. As without government, the no-Ponzi condition and the transversality condition together make the integrated budget constraint hold with equality. With $\PDV_{0}(\bullet) \equiv \int_{0}^{\infty} \bullet_{t}\, e^{-\int_{0}^{t}\rfree_{s}\,ds}\,dt$ the present discounted value at date 0 of a flow $\bullet$, and \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/\#eq-humwealth}{human wealth} $\hNrm_{0} = \PDV_{0}(\Wage)$,
+\begin{equation}
+  \PDV_{0}(\cNrm) = \aNrm_{0} + \hNrm_{0} - \PDV_{0}(\TaxLev) : \label{eq:RCKGov-hhibc}
+\end{equation}
+the present discounted value of consumption equals net worth plus human wealth minus the present discounted value of taxes.
+
+A planner who must provide the same spending, and who has the households' utility function, maximizes the same objective subject to the economy's resource constraint:
+\begin{equation}
+  \dot{\kap} = \fFunc(\kap) - \deprRte\kap - \cNrm - \GovSpend . \label{eq:RCKGov-kdot}
+\end{equation}
+Net output is consumed, spent by the government, or invested. Spending does not depend on $\kap$, so it drops out of the planner's costate equation too, and the planner's consumption follows the \href{https://intertemporal-choice.github.io/content/growth/ramseycasskoopmans/\#eq-cdotoc}{Keynes-Ramsey rule} with $\PopnGroRte=\PtyGroRte=0$, $\dot{\cNrm}/\cNrm = \CRRA^{-1}(\fFunc^{\prime}(\kap) - \deprRte - \discRte)$, which is the household's Euler equation, since $\rfree = \fFunc^{\prime}(\kap) - \deprRte$. In equilibrium a household's net worth is the capital stock, $\aNrm = \kap$, because identical households owe each other nothing, as in the \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{decentralized economy}, and this government does not borrow; and by \href{https://intertemporal-choice.github.io/content/appendices/mathematical/mathfactslist/\#fact-eulerstheorem}{Euler's theorem} the factor payments exhaust output, $\rfree\kap + \Wage = \fFunc(\kap) - \deprRte\kap$. So with $\TaxLev = \GovSpend$ the household's budget constraint is the planner's resource constraint, and with $\aNrm = \kap$ its transversality condition is the planner's. The two economies follow the same equations from the same $\kap_{0}$, with the same condition at infinity: spending paid for by lump-sum taxes takes resources, but leaves the market's allocation of what remains efficient.
+
+\section{Permanent and Temporary Increases in Spending}\label{sec:RCKGov-Spending}
+
+In the \href{https://intertemporal-choice.github.io/content/growth/ramseycasskoopmans/\#fig-ramseyssplot}{phase diagram} of the RCK model with $\PopnGroRte=\PtyGroRte=0$, the $\dot{\cNrm}=0$ locus, $\fFunc^{\prime}(\kap) = \deprRte + \discRte$, does not involve spending, so neither the steady-state capital stock $\Steady{\kap}$ nor the steady-state interest rate, $\discRte$, depends on it. The \href{https://intertemporal-choice.github.io/content/growth/ramseycasskoopmans/\#eq-rck-kdoteq0}{locus where capital is constant}, $\dot{\kap}=0$, is here $\cNrm = \fFunc(\kap) - \deprRte\kap - \GovSpend$: it shifts down one for one with spending, and a steady state with positive consumption requires $\GovSpend < \fFunc(\Steady{\kap}) - \deprRte\Steady{\kap}$. It is spending that shifts the locus, not taxes: by \hyperref[sec:RCKGov-Debt]{Ricardian equivalence}, when the taxes that pay for the spending are levied does not matter. Start from the steady state.
+
+\textbf{A permanent increase.} Spending rises unexpectedly, and for good, from $\GovSpend$ to $\GovSpend+\Delta\GovSpend$. Capital cannot jump, but consumption can. The only point on the new saddle path with capital $\Steady{\kap}$ is the new steady state, so consumption falls at once by exactly $\Delta\GovSpend$, and nothing else changes, then or later: capital, the interest rate and the wage stay where they were. Each unit of spending crowds out a unit of private consumption.
+
+\textbf{A temporary increase.} Spending rises unexpectedly at date 0, and everyone knows that it will return to $\GovSpend$ at date $t_{1}$. From $t_{1}$ on, the economy follows its original equations of motion, so at $t_{1}$ it must be on the original saddle path. Consumption cannot jump at $t_{1}$, a date everyone foresaw: as with \href{https://intertemporal-choice.github.io/content/investment/qmodel/\#future-shock-to-productivity}{a foreseen change in the q model}, a jump in marginal utility at a known date would leave a gain from moving consumption across it. So consumption falls at date 0 to the level from which, following the equations of motion with high spending, it reaches the original saddle path exactly at $t_{1}$. It falls by less than $\Delta\GovSpend$, because the spending lasts only until $t_{1}$. Consumption is then above the new $\dot{\kap}=0$ locus, so capital falls; with capital below $\Steady{\kap}$, the interest rate $\fFunc^{\prime}(\kap)-\deprRte$ is above $\discRte$, so consumption rises. At $t_{1}$ spending falls back, investment jumps up by $\Delta\GovSpend$, and the economy returns along the original saddle path to its old steady state: capital is rebuilt, the interest rate falls back to $\discRte$, and consumption keeps rising. Figure~\ref{fig:RCKGovPhase} and Figure~\ref{fig:RCKGovPaths} show both experiments.
+
+\begin{figure}
+  \caption{Permanent and Temporary Increases in Spending}\label{fig:RCKGovPhase}
+  \includegraphics[width=6in]{\FigDir/RCKGovPhase.png}
+
+  \small Note: From the steady state E, spending rises unexpectedly from 20 to 25 percent of output. For good, consumption drops at once from E to E′. For ten years, it drops to A; capital runs down to B, on the original saddle path, when the spending ends; and the economy returns along it to E. With $\CRRA=2$, $\kapShare=0.3$, $\discRte=0.02$ and $\deprRte=0.08$, the parameters of the RCK handout's figures without growth. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\NotebookBinder}{Binder}.
+\end{figure}
+
+\begin{figure}
+  \caption{Consumption, Capital and the Interest Rate after an Increase in Spending}\label{fig:RCKGovPaths}
+  \includegraphics[width=6in]{\FigDir/RCKGovPaths.png}
+
+  \small Note: The same economy. The temporary increase is solid, the permanent one dashed, and the shading marks the ten years of high spending. Consumption falls at once by about three fifths of the temporary increase, capital falls by 8 percent while the spending lasts, and the interest rate rises from 2.0 to 2.6 percent. Drawn by the \href{\Notebook}{notebook}; run it in your browser with nothing to install, in \href{\BookNotebookLite}{JupyterLite}, or open it in \href{\NotebookColab}{Colab} or \href{\NotebookBinder}{Binder}.
+\end{figure}
+
+So a temporary increase in spending is paid for partly by lower consumption and partly by running down capital, and it raises the interest rate, most when the spending ends; a permanent one is paid for by consumption alone and leaves the interest rate where it was. \citet{romer:text}, section 2.7, works through the same experiments, and \citet{barroWarSpendingUK} finds the pattern in British data from 1701 to 1918: temporary, wartime increases in military spending raised interest rates.
+
+\section{Debt and Ricardian Equivalence}\label{sec:RCKGov-Debt}
+
+Now let the government borrow. Spending keeps its path, but taxes $\TaxLev_{t}$ may differ from it at any date. With $\Debt$ its debt, the government's dynamic budget constraint, the continuous-time counterpart of \href{https://intertemporal-choice.github.io/content/consumption/genacctsandgov/\#eq-recurse}{the one in Generational Accounts and the Government}, is
+\begin{equation*}
+  \dot{\Debt}_{t} = \GovSpend_{t} + \rfree_{t}\Debt_{t} - \TaxLev_{t} :
+\end{equation*}
+debt rises by the amount by which spending, including the interest on the debt, exceeds taxes. The government cannot pay the interest on its debt by borrowing more forever, $\lim_{t\rightarrow\infty} e^{-\int_{0}^{t}\rfree_{s}\,ds}\Debt_{t} = 0$, so integrating its budget constraint gives its intertemporal budget constraint, the counterpart of \href{https://intertemporal-choice.github.io/content/consumption/genacctsandgov/\#eq-govibc2}{the discrete-time one}: its taxes are worth its initial debt plus its spending,
+\begin{equation}
+  \PDV_{0}(\TaxLev) = \Debt_{0} + \PDV_{0}(\GovSpend) . \label{eq:RCKGov-govibc}
+\end{equation}
+
+Households can now hold government bonds as well as capital, $\aNrm = \kap + \Debt$. Both are riskless, so they must pay the same return, $\rfree = \fFunc^{\prime}(\kap)-\deprRte$, or no one would hold the one that pays less. Unlike the households' loans to one another in the \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{decentralized economy}, which net out, government bonds are a net asset of the households: they hold them, and no household owes them. The household's problem is unchanged, so its Euler equation is too, and so is its \hyperref[eq:RCKGov-hhibc]{intertemporal budget constraint}, now with $\aNrm_{0} = \kap_{0} + \Debt_{0}$. Substituting the government's intertemporal budget constraint into it eliminates both the taxes and the debt:
+\begin{equation}
+  \PDV_{0}(\cNrm) = \kap_{0} + \Debt_{0} + \hNrm_{0} - \PDV_{0}(\TaxLev) = \kap_{0} + \hNrm_{0} - \PDV_{0}(\GovSpend) . \label{eq:famibc}
+\end{equation}
+
+The bonds a household holds are matched by the present value of the taxes that will service them: government bonds are not net wealth \citep{barro:bondsnetworth}. The same holds at every date. Subtracting the government's budget constraint from the household's gives $\dot{\kap} = \dot{\aNrm} - \dot{\Debt} = \rfree\kap + \Wage - \cNrm - \GovSpend$, the economy's \hyperref[eq:RCKGov-kdot]{resource constraint}, with neither taxes nor debt in it; and the household's transversality condition, with the government's limit on its debt, is the planner's. Since taxes enter neither the resource constraint nor the Euler equation, every path of lump-sum taxes that satisfies the government's intertemporal budget constraint supports the same path of consumption, capital and interest rates. This is Ricardian equivalence, in a perfect foresight economy.\marginFootnote{Ricardian equivalence needs taxes that are lump sum (\hyperref[sec:RCKGov-CapitalTax]{a tax on capital income} is not), households that can borrow and lend at the government's interest rate, and households that in effect live as long as the government, or dynasties linked by bequests \citep{barro:bondsnetworth}. When lives are finite and unlinked, debt is net wealth to the generations alive and crowds out capital, as in \href{https://intertemporal-choice.github.io/content/consumption/olgmodel/}{Diamond's model}, first written to study national debt \citep{diamond:olg}, and in \href{https://intertemporal-choice.github.io/content/growth/blanchardfinitehorizon/}{Blanchard's perpetual youth model} \citep{blanchardFinite}; and the government can move taxes onto generations not yet born, as \href{https://intertemporal-choice.github.io/content/consumption/socsecandkaccum/}{pay-as-you-go Social Security} does. Equivalence also fails when households cannot borrow against future income, as in \href{https://intertemporal-choice.github.io/content/consumption/aiyagari/}{Aiyagari's economy}, and when future taxes are uncertain \citep{barskymankiwzeldes:aer}. \citet{elmendorfMankiw} survey the theory and the evidence, and Wikipedia's \href{https://en.wikipedia.org/wiki/Ricardian_equivalence}{article on Ricardian equivalence} traces its history from Ricardo on.}
+
+\section{A Tax on Capital Income}\label{sec:RCKGov-CapitalTax}
+
+Finally, let the government tax capital income, net of depreciation, at the rate $\TaxRte$, and return the revenue to households as a lump sum, $\TaxRte\rfree\kap$ to each, so that it neither spends nor borrows. The household's budget constraint becomes
+\begin{equation*}
+  \dot{\aNrm} = (1-\TaxRte)\rfree\aNrm + \Wage - \cNrm + \TaxRte\rfree\kap .
+\end{equation*}
+The rebate depends on aggregate capital $\kap$, not on the household's own net worth $\aNrm$, and the household takes it as given: one household's saving changes aggregate capital by nothing (\href{https://intertemporal-choice.github.io/content/appendices/mathematical/aggregation/}{Aggregation}). So in its current-value Hamiltonian $\partial\Ham/\partial\aNrm = (1-\TaxRte)\rfree\vk$ rather than $\rfree\vk$: the tax lowers the return on saving in the \href{https://intertemporal-choice.github.io/content/appendices/mathematical/hamiltonianvsdiscrete/\#eq-lamgrow}{costate equation}, and the Euler equation becomes
+\begin{equation*}
+  \dot{\cNrm}/\cNrm = \CRRA^{-1}((1-\TaxRte)\rfree - \discRte) .
+\end{equation*}
+In the steady state the after-tax return equals the time preference rate:
+\begin{equation}
+  (1-\TaxRte)(\fFunc^{\prime}(\Steady{\kap})-\deprRte) = \discRte, \qquad \fFunc^{\prime}(\Steady{\kap}) = \deprRte + \discRte/(1-\TaxRte) , \label{eq:RCKGov-kTaxSteady}
+\end{equation}
+so the marginal product of capital is higher, and the capital stock lower, than at the planner's \href{https://intertemporal-choice.github.io/content/growth/ramseycasskoopmans/\#eq-rck-modgoldenrule}{modified golden rule}, $\fFunc^{\prime}(\Steady{\kap}) = \deprRte + \discRte$: before tax, capital must earn $\discRte/(1-\TaxRte)$ to pay savers $\discRte$ after it, as in the \href{https://intertemporal-choice.github.io/content/investment/halljorgenson/\#halljorgensontaxes}{cost of capital with taxes} of \citet{hall&jorgenson:i}.
+
+Yet the resource constraint does not change, because the revenue comes back to households: with $\aNrm = \kap$,
+\begin{equation*}
+  \dot{\kap} = (1-\TaxRte)\rfree\kap + \Wage - \cNrm + \TaxRte\rfree\kap = \fFunc(\kap) - \deprRte\kap - \cNrm .
+\end{equation*}
+So the planner's problem, and with it the planner's steady state, the modified golden rule, is what it was. What has changed is the households' Euler equation, so the competitive equilibrium no longer reproduces the planner's allocation: it converges to less capital, and less consumption, than the planner would choose.
+
+Why does a tax whose revenue all comes back change anything? A household that saves one more unit earns the after-tax return $(1-\TaxRte)\rfree$ on it. The tax on that unit's income, $\TaxRte\rfree$, is spread over the whole population as rebates, so the saver gets essentially none of it back: the others get it. When every household saves one more unit, the rebates return the tax to them, and the economy as a whole earns the full $\rfree$. The tax drives a wedge between the private return to saving, $(1-\TaxRte)\rfree$, and its social return, $\rfree$: the household's budget constraint differs from the economy's, which is what \href{https://intertemporal-choice.github.io/content/growth/decentralizingrck/}{the decentralization} said it would take for the two solutions to differ. A knowledge externality drives the same kind of wedge in \href{https://intertemporal-choice.github.io/content/growth/romer86/}{Romer's model}.\marginFootnote{A constant tax on capital income taxes consumption at a date the more heavily the later the date: it raises the price of consumption at $t$, in units of consumption at date 0, by the factor $e^{\TaxRte\int_{0}^{t}\rfree_{s}\,ds}$, which grows without bound. This is the intuition for the result of \citet{juddRedistributive} and \citet{chamleyCapitalTax} that in models like this one the optimal tax on capital income is zero in the long run. \citet{straubWerningChamleyJudd} show that the result is less general than it seemed, and \citet{aiyagari:opttax} that with \href{https://intertemporal-choice.github.io/content/consumption/aiyagari/\#res-aiyagari-r-below-time-preference}{uninsurable income risk} the optimal long-run tax is positive.}
+
+\bibliographystyle{econark}
+\bibliography{\bibfilesfound}
+
+\end{document}

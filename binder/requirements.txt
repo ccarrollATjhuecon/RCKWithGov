@@ -1,0 +1,9 @@
+# Binder's environment for RCKWithGov.ipynb: the book's package, which brings numpy, scipy, matplotlib, pandas
+# and ipywidgets, and the drawing module intertemporal_choice.fiscal that this notebook uses. The notebook's first
+# cell installs the package from the book's main when it is missing (Colab, a download); installing it here when
+# Binder builds the image makes that cell do nothing.
+#
+# UNPINNED for now: no release of the package yet contains intertemporal_choice.fiscal, which arrives with the
+# book's RCKWithGov pull request. Once a release has it, pin it here by its full address and sha256, as the
+# RamseyCassKoopmans handout's binder/requirements.txt does (the book's packages/releases.txt gives both).
+intertemporal-choice @ git+https://github.com/intertemporal-choice/intertemporal-choice.github.io@main

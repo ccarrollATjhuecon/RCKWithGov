@@ -536,3 +536,6 @@ private
 # The instructor-notes build of the handout (MakeHandout HANDOUTNOTES), kept out of the public repo
 *MyNotes*.pdf
 *_MyNotes*
+
+# The 2021 sources, kept on disk; the first commit holds them as found
+/LaTeX/
