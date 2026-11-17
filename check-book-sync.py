@@ -114,10 +114,9 @@ GREEK = ('alpha beta gamma delta epsilon varepsilon zeta eta theta vartheta iota
          'xi pi varpi rho varrho sigma varsigma tau upsilon phi varphi chi psi omega '
          'Gamma Delta Theta Lambda Xi Pi Sigma Upsilon Phi Psi Omega ell').split()
 RAW_ALLOWED = [
-    (r't(?![A-Za-z])', 'the date, and t_{1}, the date a temporary increase in spending ends'),
+    (r't(?![A-Za-z])', 'the date; t_{1}, the date a temporary increase in spending ends; and t\', the variable of integration over dates (tau is the tax rate here)'),
     (r'e(?=\s*\^)', "Euler's e"),
-    (r'd(?=\s*(?:\^\{?\d\}?\s*)?(?:[A-Za-z]|\\[A-Za-z]))', 'the differential, as in dt or ds'),
-    (r's(?![A-Za-z])', 'the variable of integration over dates (tau is the tax rate here)'),
+    (r'd(?=\s*(?:\^\{?\d\}?\s*)?(?:[A-Za-z]|\\[A-Za-z]))', 'the differential, as in dt or dt\''),
     (r'\\Delta(?![A-Za-z])', 'the change in spending'),
 ]
 
