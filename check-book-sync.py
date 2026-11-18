@@ -30,7 +30,7 @@ or a throwaway letter).
 A difference that should stay goes in one of the ACCEPTED lists below, with its reason.
 An entry that no longer matches anything is reported too, so the lists can't go stale.
 The handout's symbols are read from the registry's KaTeX file, the published twin of the
-LaTeX macros it loads, and from @local/RamseyCassKoopmans.sty.
+LaTeX macros it loads, and from @local/RCKWithGov.sty.
 
 Exit status: 0 nothing to resolve, 1 something to resolve, 2 the book could not be read.
 """
