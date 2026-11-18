@@ -1,18 +1,11 @@
-% Macros specific to this handout. It loads after econark-notation, so once the vendored registry defines a
-% macro, the registry's wins; then delete the line here.
+% No notation is defined here. Since registry v14.1.0 (econ-ark-tools 02e344d5) the registry defines every object
+% this handout writes, \GovSpend, \TaxLev, \Debt, \Ham and \vk included. Chris, 2026-11-17 20:21:13 EST:
+% handout-specific macros go to zero. 22:55:52 EST, in jd_econ-ark-tools: the course takes up v14.1.0's rows.
 
 % Not notation. A note the book prints in its margin (a {margin} block), printed here as a footnote
 % (Chris, 2026-11-14: "As a footnote"; 2026-11-16: a plain \footnote stays a footnote in the book).
 % check-book-sync.py compares it with the book's margin block.
 \newcommand{\marginFootnote}[1]{\footnote{#1}}
-
-% Objects the registry lacks, as the book's course block (notation/course-local-math.yml) defines them (rule D).
-% The letters for spending, taxes and debt wait on Chris's ruling (notation question Q20); then only these change.
-\providecommand{\GovSpend}{X}% government spending, as in Generational Accounts and the Government
-\providecommand{\TaxLev}{T}% a lump-sum tax
-\providecommand{\Debt}{D}% government debt
-\providecommand{\Ham}{\mathcal{H}}% the current-value Hamiltonian
-\providecommand{\vk}{\lambda}% the costate, the marginal value of wealth
 
 % The prime in the figure notes' E' (U+2032), written as the chapter writes it, so the two texts match word for word.
 \DeclareUnicodeCharacter{2032}{\ensuremath{^{\prime}}}
